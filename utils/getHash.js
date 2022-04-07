@@ -2,12 +2,12 @@
 
 // @see https://github.com/qiniu/qetag/blob/master/qetag.js
 
-var fs = require('fs');
-var crypto = require('crypto');
-var Promise = require('bluebird');
+const fs = require('fs');
+const crypto = require('crypto');
+const Promise = require('bluebird');
 
 // sha1 算法
-var sha1 = function(content) {
+const sha1 = function(content) {
   return crypto.createHash('sha1').update(content).digest();
 };
 

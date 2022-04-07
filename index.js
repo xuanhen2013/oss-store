@@ -1,12 +1,12 @@
-var fs = require("fs");
-var path = require("path");
-var Promise = require("bluebird");
-var OSS = require("ali-oss");
-var utils = require("./utils/joinUrl");
-var getHash = require("./utils/getHash");
-var moment = require("moment");
+const fs = require("fs");
+const path = require("path");
+const Promise = require("bluebird");
+const OSS = require("ali-oss");
+const utils = require("./utils/joinUrl");
+const getHash = require("./utils/getHash");
+const moment = require("moment");
 
-var baseStore = require("ghost-storage-base");
+const baseStore = require("ghost-storage-base");
 
 class OssStore extends baseStore {
   constructor(config) {
@@ -17,11 +17,12 @@ class OssStore extends baseStore {
   }
 
   save(file) {
-    var origin = this.options.origin;
-    var key = this.getFileKey(file);
+    const origin = this.options.origin;
+    const key = this.getFileKey(file);
+    const client = this.client;
 
     return new Promise(function (resolve, reject) {
-      return this.client
+      return client
         .put(key, fs.createReadStream(file.path))
         .then(function (result) {
           // console.log(result)
@@ -39,7 +40,7 @@ class OssStore extends baseStore {
   }
 
   exists(filename) {
-    var client = this.client;
+    const client = this.client;
 
     return new Promise(function (resolve, reject) {
       return client
@@ -62,7 +63,7 @@ class OssStore extends baseStore {
   }
 
   delete(filename) {
-    var client = this.client;
+    const client = this.client;
 
     // console.log('del',filename)
     return new Promise(function (resolve, reject) {
@@ -80,9 +81,10 @@ class OssStore extends baseStore {
   }
 
   read() {
+    const client = this.client;
     return new Promise(function (resolve) {
       try {
-        this.client.head(options.path).then(({ meta }) => {
+        client.head(options.path).then(({ meta }) => {
           if (meta && meta.path) {
             resolve(meta.path);
           } else {
